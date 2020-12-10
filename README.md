@@ -6,7 +6,7 @@ k-means undoubtedly has varying levels of complexity, depending on approach and 
 
 ## Usage:
 
-CMake the project and run the target executable without any args.
+CMake the project (thats pretty much it!) The target and helper scripts are configured to auto-run post cmake build.
 
 main.cpp reads in input.csv |x|y| and writes output.csv |x|y|label|
 
