@@ -21,8 +21,8 @@ std::string pwd()
     return workingDir;
 }
 
-const std::string CSV_INPUT_FILE = pwd() + "/src/input.csv";
-const std::string CSV_OUTPUT_FILE = pwd() + "/src/output.csv";
+const std::string CSV_INPUT_FILE = pwd() + "/resources/input.csv";
+const std::string CSV_OUTPUT_FILE = pwd() + "/resources/output.csv";
 const int COMPUTE_REITERATIONS = 1000;
 const int K_CLUSTERS = 5;
 

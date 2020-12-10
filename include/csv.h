@@ -38,7 +38,8 @@ void write(const std::vector<Point>* points, const std::string& t_file)
     myfile.open(t_file);
     myfile << "x,y,label" << std::endl;
     for (const auto& point : *points) {
-        myfile << point.x << "," << point.y << "," << point.cluster << std::endl;
+        myfile << point.x << "," << point.y << "," << point.cluster
+               << std::endl;
     }
     myfile.close();
 }

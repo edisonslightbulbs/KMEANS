@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -8,8 +7,8 @@ import os
 
 pwd = os.getcwd()
 
-csv_input = pwd + "/src/input.csv"
-csv_output = pwd + "/src/output.csv"
+csv_input = pwd + "/resources/input.csv"
+csv_output = pwd + "/resources/output.csv"
 
 unclustered = csv_input
 clustered = csv_output
