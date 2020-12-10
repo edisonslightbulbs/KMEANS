@@ -68,7 +68,7 @@ std::vector<Point>* kmeans(
         centroids.push_back(tptr_points->at(rand() % numPoints));
     }
 
-    /* for [ epochs ] number of iterations ... */
+    /* for t_reiterations ... */
     for (int i = 0; i < t_reiterations; ++i) {
         clusterId = 0;
 
