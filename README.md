@@ -1,11 +1,10 @@
-## k-means
 k-means concept from scratch (under 10 minutes): a standard CMake project demonstrating a naive k-means implementation
 
 ---
 
 k-means undoubtedly has varying levels of complexity, depending on approach and application. However, the core concept boils down to 5 easy to grasp fundamental step which can be put together in under 10 minutes (more or less) in CPP.
 
-###### usage:
+## Usage:
 
 CMake the project and run the target executable without any args.
 
