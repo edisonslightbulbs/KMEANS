@@ -8,7 +8,7 @@ k-means undoubtedly has varying levels of complexity, depending on approach and 
 
 CMake the project and run the target executable without any args.
 
-main.cpp reads in kemeans.csv |x|y| and outputs output.csv |x|y|label|
+main.cpp reads in input.csv |x|y| and writes output.csv |x|y|label|
 
 graph.py reads and plots both kmeans.csv and output.csv with discernable color markers
 
