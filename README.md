@@ -17,7 +17,8 @@ The helper script `graph.py` graphs data before and after clustering
 
 before clustering |  after clustering
 :-------------------------:|:-------------------------:
-![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/before.png)  |  ![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/after.png)
+![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/2d_before.png)  |  ![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/2d_after.png)
+![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/3d_before.png)  |  ![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/3d_after.png)
 
 ## Gist:
 
