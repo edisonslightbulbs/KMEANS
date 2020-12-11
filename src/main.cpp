@@ -91,7 +91,7 @@ std::vector<Point*> kmeans(
 
 std::string pwd()
 {
-    char buff[FILENAME_MAX]; // create string buffer to hold path
+    char buff[FILENAME_MAX];
     getCurrentDir(buff, FILENAME_MAX);
     std::string workingDir(buff);
     return workingDir;
