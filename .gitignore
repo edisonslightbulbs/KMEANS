@@ -2,3 +2,5 @@
 build/
 cmake-build-debug/
 scripts/venv/
+resources/out.csv
+resources/iris_out.csv
