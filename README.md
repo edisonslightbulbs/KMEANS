@@ -13,8 +13,11 @@ CMake the project (thats pretty much it!).
 
 The target and helper scripts are auto-run post the cmake build process.
 
-The helper script `graph.py` graphs parsed csv file data, i.e., before and
-after clustering
+The helper script `graph.py` graphs data before and after clustering
+
+before clustering |  after clustering
+:-------------------------:|:-------------------------:
+![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/before.png)  |  ![](https://raw.githubusercontent.com/edisonslightbulbs/kmeans-cpp/main/resources/after.png)
 
 ## Gist:
 
