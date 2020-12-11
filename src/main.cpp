@@ -4,8 +4,6 @@
 
 #include "data.h"
 #include "point.h"
-// #include "point2d.h"
-// #include "point3d.h"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -14,19 +12,6 @@
 #include <unistd.h>
 #define getCurrentDir getcwd
 #endif
-
-std::string pwd()
-{
-    char buff[FILENAME_MAX]; // create string buffer to hold path
-    getCurrentDir(buff, FILENAME_MAX);
-    std::string workingDir(buff);
-    return workingDir;
-}
-
-const int K_CLUSTERS = 3;
-const int COMPUTE_REITERATIONS = 1000;
-const std::string CSV_INPUT_FILE = pwd() + "/resources/input.csv";
-const std::string CSV_OUTPUT_FILE = pwd() + "/resources/output.csv";
 
 /**
  * kmeans
@@ -104,8 +89,21 @@ std::vector<Point*> kmeans(
     return t_points;
 }
 
+std::string pwd()
+{
+    char buff[FILENAME_MAX]; // create string buffer to hold path
+    getCurrentDir(buff, FILENAME_MAX);
+    std::string workingDir(buff);
+    return workingDir;
+}
+
 int main()
 {
+    const int K_CLUSTERS = 3;
+    const int COMPUTE_REITERATIONS = 1000;
+    const std::string CSV_INPUT_FILE = pwd() + "/resources/input.csv";
+    const std::string CSV_OUTPUT_FILE = pwd() + "/resources/output.csv";
+
     /* parse csv file */
     Data data(CSV_INPUT_FILE);
 
