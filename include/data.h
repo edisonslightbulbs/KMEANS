@@ -36,11 +36,14 @@ public:
             while (std::getline(ss, cell, ',')) {
                 row.push_back(cell);
             }
-            /* create data points */
-            x = (float)std::stof(row[0]);
-            y = (float)std::stof(row[1]);
-            Point* ptr_point = new Point2d(x, y);
-            m_points.push_back(ptr_point);
+            if (row.size() == 2) {
+                /* create data points */
+                x = (float)std::stof(row[0]);
+                y = (float)std::stof(row[1]);
+                Point* ptr_point = new Point2d(x, y);
+                m_points.push_back(ptr_point);
+            } else {
+            }
         }
     }
 
