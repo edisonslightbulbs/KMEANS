@@ -8,6 +8,7 @@
 
 #include "point.h"
 #include "point2d.h"
+#include "point3d.h"
 
 class Data {
 private:
@@ -20,6 +21,7 @@ public:
         /* type definitions for the data */
         float x = 0;
         float y = 0;
+        float z = 0;
 
         /* type definitions for parsing csv file */
         std::ifstream data(t_file);
@@ -36,18 +38,23 @@ public:
             while (std::getline(ss, cell, ',')) {
                 row.push_back(cell);
             }
+            /* create data points */
             if (row.size() == 2) {
-                /* create data points */
                 x = (float)std::stof(row[0]);
                 y = (float)std::stof(row[1]);
                 Point* ptr_point = new Point2d(x, y);
                 m_points.push_back(ptr_point);
             } else {
+                x = (float)std::stof(row[0]);
+                y = (float)std::stof(row[1]);
+                z = (float)std::stof(row[2]); // <---
+                Point* ptr_point = new Point3d(x, y, z);
+                m_points.push_back(ptr_point);
             }
         }
     }
 
-    void write(const std::vector<Point*>& t_points, const std::string& t_file)
+    void write2d(const std::vector<Point*>& t_points, const std::string& t_file)
     {
         std::ofstream filestream;
         filestream.open(t_file);
@@ -59,8 +66,23 @@ public:
         }
         filestream.close();
     }
+
+    void write3d(const std::vector<Point*>& t_points, const std::string& t_file)
+    {
+        std::ofstream filestream;
+        filestream.open(t_file);
+        filestream << "x,y,z,label" << std::endl;
+
+        for (const auto* ptr_point : t_points) {
+            filestream << ptr_point->m_x << "," << ptr_point->m_y << ","
+                       << ptr_point->m_z << "," << ptr_point->m_cluster
+                       << std::endl;
+        }
+        filestream.close();
+    }
 };
-#endif /* Data_H */
+
+#endif /* DATA_H */
 
 /**
  * returning pointers from functions

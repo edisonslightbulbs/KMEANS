@@ -47,7 +47,8 @@ protected:
 
 std::ostream& operator<<(std::ostream& t_out, const Point& t_point)
 {
-    t_out << t_point.m_x << " " << t_point.m_y << " " << t_point.m_z;
+    t_out << t_point.m_x << ", " << t_point.m_y << ", " << t_point.m_z << ": "
+          << t_point.m_cluster;
     return t_out;
 }
 
