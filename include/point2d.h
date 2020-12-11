@@ -11,10 +11,10 @@ public:
     {
     }
 
-    float distance(Point t_point) const
+    float distance(Point* t_point) override
     {
-        return (t_point.m_x - m_x) * (t_point.m_x - m_x)
-            + (t_point.m_y - m_y) * (t_point.m_y - m_y);
+        return (t_point->m_x - m_x) * (t_point->m_x - m_x)
+            + (t_point->m_y - m_y) * (t_point->m_y - m_y);
     }
 };
 #endif /* POINT2D_H */

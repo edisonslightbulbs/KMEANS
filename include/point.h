@@ -9,11 +9,12 @@ public:
     float m_x;
     float m_y;
     float m_z;
-
     int m_cluster;
     float m_minDist;
 
     friend std::ostream& operator<<(std::ostream& t_out, const Point& t_point);
+
+    virtual float distance(Point* tptr_point) = 0;
 
 protected:
     Point()
@@ -42,8 +43,6 @@ protected:
         , m_minDist(__DBL_MAX__)
     {
     }
-
-    virtual float distance() = 0;
 };
 
 std::ostream& operator<<(std::ostream& t_out, const Point& t_point)
@@ -51,6 +50,7 @@ std::ostream& operator<<(std::ostream& t_out, const Point& t_point)
     t_out << t_point.m_x << " " << t_point.m_y << " " << t_point.m_z;
     return t_out;
 }
+
 #endif /* POINT_H */
 
 /**

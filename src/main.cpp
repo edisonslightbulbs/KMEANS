@@ -2,8 +2,10 @@
 #include <iostream>
 #include <vector>
 
-#include "csv.h"
+#include "data.h"
 #include "point.h"
+// #include "point2d.h"
+// #include "point3d.h"
 
 #ifdef WINDOWS
 #include <direct.h>
@@ -21,108 +23,96 @@ std::string pwd()
     return workingDir;
 }
 
+const int K_CLUSTERS = 3;
+const int COMPUTE_REITERATIONS = 1000;
 const std::string CSV_INPUT_FILE = pwd() + "/resources/input.csv";
 const std::string CSV_OUTPUT_FILE = pwd() + "/resources/output.csv";
-const int COMPUTE_REITERATIONS = 1000;
-const int K_CLUSTERS = 3;
 
 /**
  * kmeans
- *   Finds t_k clusters of points in a dataset such that
- *   the total variance within each cluster is minimized.
+ *   Finds clusters between points in a dataset such that the to-
+ *   tal variance within each cluster is minimized.
  *
- *   kmeans partitions feature space into t_k subsets to
- *   minimize the "within-cluster sum-of-square deviations"
- *   (WCSS), which is the sum of square Euclidean distances
- *   between each data point and the centroid.
+ *   kmeans partitions feature space into t_k subsets to minimize
+ *   the "within-cluster sum-of-square deviations" (WCSS), which
+ *   is the sum of square Euclidean distances between each data
+ *   point and the centroid.
  *
- * @param tptr_points ("tptr" reads this pointer)
- *   2D Points, i.e., x and y in a Cartesian coordinate system:
- *   | x | y |
+ * @param t_points
+ *   Points parsed from an external file
  *
- * @param t_reiterations ("t" reads this)
- *   number of iterations over which to refine k-means clusters
+ * @param t_reiterations
+ *   number of update iterations for computing k-means clusters
  *
- * @param t_k ("t" reads this)
+ * @param t_k
  *   number of clusters
  *
  * @retval
- *   returns points allocated to their closest centroid
- *   , i.e., clusters about computed centroids:
- *   | x | y | centroid |
- *
- */
-std::vector<Point>* kmeans(
-    std::vector<Point>* tptr_points, int t_reiterations, int t_k)
+ *   returns points allocated with their closest centroid */
+std::vector<Point*> kmeans(
+    const std::vector<Point*>& t_points, int t_reiterations, int t_k)
 {
-    int clusterId = 0;                   // cluster label/id
-    std::vector<float> sumY;             // sum of x values per cluster
-    std::vector<float> sumX;             // sum of x values per cluster
-    std::vector<Point> centroids;        // cluster centroids
-    std::vector<int> numClusterPoints;   // number of points per cluster
-    int numPoints = tptr_points->size(); // total number of points
+    int clusterId = 0;
+    std::vector<float> sumY;
+    std::vector<float> sumX;
+    std::vector<Point*> centroids;
+    int numPoints = t_points.size();
+    std::vector<int> numClusterPoints;
 
     /* initialise random centroids */
     srand(time(0));
     for (int i = 0; i < t_k; ++i) {
-        centroids.push_back(tptr_points->at(rand() % numPoints));
+        centroids.push_back(t_points.at(rand() % numPoints));
     }
-
     /* for t_reiterations ... */
     for (int i = 0; i < t_reiterations; ++i) {
-        clusterId = 0;
 
-        /* assign each data point to the closest centroid */
-        for (auto& centroid : centroids) {
-            for (auto& point : *tptr_points) {
-                if (centroid.distance(point) < point.minDist) {
-                    point.minDist = centroid.distance(point);
-                    point.cluster = clusterId;
+        /* ... assign each point to centroid closest to it &
+         * label each point with the ID of the closest centroid
+         */
+        clusterId = 0;
+        for (auto* ptr_centroid : centroids) {
+            for (auto* ptr_point : t_points) {
+                if (ptr_centroid->distance(ptr_point) < ptr_point->m_minDist) {
+                    ptr_point->m_minDist = ptr_centroid->distance(ptr_point);
+                    ptr_point->m_cluster = clusterId;
                 }
             }
             clusterId++;
         }
-
-        /* per update:
-         * re-initialize enumeration containers */
+        /* ... initialize enumeration containers */
         for (int j = 0; j < t_k; ++j) {
             numClusterPoints.push_back(0);
             sumX.push_back(0.0);
             sumY.push_back(0.0);
         }
-
-        /* enumerate number of points in each cluster:
-         * for determining the new centroid locations */
-        for (auto& point : *tptr_points) {
-            numClusterPoints[point.cluster] += 1;
-            sumX[point.cluster] += point.x;
-            sumY[point.cluster] += point.y;
-            point.minDist = __DBL_MAX__; // reset distance
+        /* ... enumerate points in each cluster */
+        for (auto* ptr_point : t_points) {
+            numClusterPoints[ptr_point->m_cluster] += 1;
+            sumX[ptr_point->m_cluster] += ptr_point->m_x;
+            sumY[ptr_point->m_cluster] += ptr_point->m_y;
+            ptr_point->m_minDist = __DBL_MAX__; // re-initialize
         }
-
+        /* ... compute new centroid for each cluster */
         clusterId = 0;
-
-        /* compute new centroid for each cluster */
-        for (auto& centroid : centroids) {
-            centroid.x = sumX[clusterId] / numClusterPoints[clusterId];
-            centroid.y = sumY[clusterId] / numClusterPoints[clusterId];
+        for (auto* ptr_centroid : centroids) {
+            ptr_centroid->m_x = sumX[clusterId] / numClusterPoints[clusterId];
+            ptr_centroid->m_y = sumY[clusterId] / numClusterPoints[clusterId];
             clusterId++;
         }
     }
-    return tptr_points;
+    return t_points;
 }
 
 int main()
 {
-    std::vector<Point> points;
-    std::vector<Point>* ptr_points = nullptr;
-
-    /* get points from csv file */
-    points = readcsv(CSV_INPUT_FILE);
+    /* parse csv file */
+    Data data(CSV_INPUT_FILE);
 
     /* evaluate kmeans clusters */
-    ptr_points = kmeans(&points, COMPUTE_REITERATIONS, K_CLUSTERS);
+    std::vector<Point*> points;
+    points = kmeans(data.m_points, COMPUTE_REITERATIONS, K_CLUSTERS);
 
     /* write points with assigned clusters */
-    write(ptr_points, CSV_OUTPUT_FILE);
+    data.write(points, CSV_OUTPUT_FILE);
 }
